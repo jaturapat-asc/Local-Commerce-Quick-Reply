@@ -1,0 +1,421 @@
+
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<style>
+:root{--accent:#2563eb;--accent-light:#dbeafe;--green:#059669;--green-light:#d1fae5;--red:#dc2626;--red-light:#fee2e2;--amber:#d97706;--amber-light:#fef3c7;--text:#111;--text2:#555;--text3:#888;--bg:#f0f2f5;--card:#fff;--border:#e5e7eb;--radius:12px;--shadow:0 2px 12px rgba(0,0,0,0.06)}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:system-ui,-apple-system,'Segoe UI',sans-serif;background:var(--bg);color:var(--text);line-height:1.6;font-size:15px}
+.header{position:sticky;top:0;z-index:100;background:var(--accent);color:#fff;padding:12px 24px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 2px 8px rgba(0,0,0,0.15)}
+.header h1{font-size:16px;font-weight:600;letter-spacing:0.02em}
+.header .badge{background:rgba(255,255,255,0.2);padding:4px 12px;border-radius:20px;font-size:12px}
+.slide{max-width:960px;margin:32px auto;background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:40px 48px;border:1px solid var(--border)}
+.slide-num{display:inline-block;background:var(--accent);color:#fff;width:32px;height:32px;border-radius:50%;text-align:center;line-height:32px;font-size:14px;font-weight:700;margin-right:12px}
+.slide h2{font-size:22px;color:var(--accent);margin-bottom:20px;display:flex;align-items:center;padding-bottom:12px;border-bottom:2px solid var(--accent-light)}
+.slide h3{font-size:16px;color:var(--text);margin:20px 0 10px;font-weight:600}
+.slide p,.slide li{color:var(--text2);font-size:14px;line-height:1.7}
+.slide ul{padding-left:20px}
+.slide li{margin-bottom:6px}
+table{width:100%;border-collapse:collapse;font-size:13px;margin:12px 0}
+th{text-align:left;color:var(--text3);font-weight:600;padding:10px 12px;border-bottom:2px solid var(--border);font-size:12px;text-transform:uppercase;letter-spacing:0.04em}
+td{padding:10px 12px;color:var(--text);border-bottom:1px solid #f0f0f0;vertical-align:top}
+tr:hover td{background:#fafbfc}
+.badge-green{display:inline-block;background:var(--green-light);color:var(--green);padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.badge-red{display:inline-block;background:var(--red-light);color:var(--red);padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.badge-amber{display:inline-block;background:var(--amber-light);color:var(--amber);padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.badge-blue{display:inline-block;background:var(--accent-light);color:var(--accent);padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.badge-gray{display:inline-block;background:#f3f4f6;color:#6b7280;padding:2px 10px;border-radius:12px;font-size:12px;font-weight:600}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:16px;margin:16px 0}
+.stat-card{background:var(--bg);border-radius:8px;padding:16px;text-align:center;border:1px solid var(--border)}
+.stat-card .label{font-size:11px;color:var(--text3);text-transform:uppercase;letter-spacing:0.05em}
+.stat-card .value{font-size:28px;font-weight:700;color:var(--accent);font-family:'SF Mono',Monaco,monospace;margin:4px 0}
+.stat-card .sub{font-size:12px;color:var(--text2)}
+.kv{display:grid;grid-template-columns:160px 1fr;gap:8px 16px;font-size:14px;margin:12px 0}
+.kv dt{color:var(--text3);font-weight:600}
+.kv dd{color:var(--text)}
+.src{font-size:11px;color:var(--text3);margin-top:16px;padding-top:8px;border-top:1px dashed var(--border)}
+blockquote{border-left:4px solid var(--accent);background:var(--accent-light);padding:12px 16px;border-radius:0 8px 8px 0;margin:12px 0;font-style:italic;font-size:14px;color:var(--text)}
+.flow-container{display:flex;flex-direction:column;align-items:center;gap:4px;margin:16px 0}
+.flow-box{padding:10px 20px;border-radius:8px;font-size:13px;font-weight:500;text-align:center;min-width:260px;max-width:360px}
+.flow-blue{background:#dbeafe;color:#1e40af;border:1px solid #93c5fd}
+.flow-green{background:#d1fae5;color:#065f46;border:1px solid #6ee7b7}
+.flow-amber{background:#fef3c7;color:#92400e;border:1px solid #fcd34d}
+.flow-red{background:#fee2e2;color:#991b1b;border:1px solid #fca5a5}
+.flow-gray{background:#f3f4f6;color:#374151;border:1px solid #d1d5db}
+.flow-arrow{font-size:18px;color:var(--text3);line-height:1}
+.split-row{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:16px 0}
+.phone-frame{width:280px;margin:0 auto;background:#fff;border-radius:28px;border:3px solid #1f2937;padding:12px;box-shadow:0 4px 20px rgba(0,0,0,0.1)}
+.phone-notch{width:80px;height:6px;background:#1f2937;border-radius:3px;margin:0 auto 8px}
+.phone-screen{background:#f9fafb;border-radius:16px;padding:12px;min-height:300px;font-size:12px}
+.chat-bubble-left{background:#e5e7eb;color:#111;padding:8px 12px;border-radius:16px 16px 16px 4px;margin:4px 24px 4px 0;font-size:12px;line-height:1.4}
+.chat-bubble-right{background:var(--green);color:#fff;padding:8px 12px;border-radius:16px 16px 4px 16px;margin:4px 0 4px 24px;font-size:12px;line-height:1.4}
+.dash-frame{background:#fff;border:2px solid #d1d5db;border-radius:12px;overflow:hidden;margin:16px 0}
+.dash-header{background:#1f2937;color:#fff;padding:8px 16px;font-size:13px;font-weight:600;display:flex;justify-content:space-between}
+.dash-body{padding:16px;font-size:12px}
+.dash-card{background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:12px;margin:8px 0}
+.btn{display:inline-block;padding:4px 12px;border-radius:6px;font-size:11px;font-weight:600;margin:2px}
+.btn-green{background:#059669;color:#fff}
+.btn-blue{background:#2563eb;color:#fff}
+.btn-red{background:#dc2626;color:#fff}
+.btn-gray{background:#6b7280;color:#fff}
+.verdict-box{text-align:center;padding:32px;background:linear-gradient(135deg,#d1fae5,#a7f3d0);border-radius:12px;margin:16px 0}
+.verdict-box .icon{font-size:48px}
+.verdict-box .text{font-size:28px;font-weight:700;color:#065f46;margin-top:8px}
+.col2{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:4px;margin:1px}
+.tag-must{background:#dcfce7;color:#166534}
+.tag-nice{background:#fef9c3;color:#854d0e}
+.tag-out{background:#fee2e2;color:#991b1b}
+.progress-bar{height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;border-radius:3px}
+</style>
+</head>
+<body>
+
+<div class="header">
+<h1>🏪 Local Commerce Quick-Reply — Summary Presentation</h1>
+<span class="badge">AI for All Thailand Innovation Sprint · Oct 2026</span>
+</div>
+
+<!-- SLIDE 1: OVERVIEW -->
+<div class="slide">
+<h2><span class="slide-num">1</span>Overview</h2>
+<div style="text-align:center;padding:20px 0">
+<div style="font-size:40px;margin-bottom:8px">🏪💬🤖</div>
+<div style="font-size:28px;font-weight:700;color:var(--accent);margin-bottom:8px">Local Commerce Quick-Reply</div>
+<p style="font-size:16px;color:var(--text2);max-width:640px;margin:0 auto">AI Copilot ที่ร่างข้อความตอบแชทปิดการขายสำหรับร้านค้าชุมชน OTOP บน LINE OA — ลดเวลาตอบ ลดลูกค้าหลุด เพิ่มยอดขาย โดยคนยังคงเป็นผู้ตัดสินใจส่งข้อความทุกครั้ง</p>
+</div>
+<dl class="kv">
+<dt>Pillar</dt><dd>🏪 SME & Local Economy</dd>
+<dt>Owner</dt><dd>Jaturapat (Team Lead)</dd>
+<dt>Status</dt><dd><span class="badge-green">✅ Approved — Ready for Development</span></dd>
+<dt>Project Type</dt><dd>Greenfield</dd>
+<dt>Date</dt><dd>10 October 2026</dd>
+</dl>
+<div class="src">Sources: [source: user input]</div>
+</div>
+
+<!-- SLIDE 2: PROBLEM STATEMENT -->
+<div class="slide">
+<h2><span class="slide-num">2</span>Problem Statement</h2>
+<blockquote>ร้านค้า OTOP หรือวิสาหกิจชุมชนมีคนตอบแชตไม่พอ ตอบช้า หรือตอบคำถามซ้ำ ๆ (เช่น ค่าส่งเท่าไหร่, ของหมดไหม, เก็บเงินปลายทางได้ไหม) ทำให้เสียลูกค้า<br><span style="font-size:11px;font-style:normal;color:var(--text3)">[source: participant — verbatim]</span></blockquote>
+
+<div class="stat-grid">
+<div class="stat-card">
+<div class="label">เวลาที่เสียไป/วัน</div>
+<div class="value">2–3 ชม.</div>
+<div class="sub">พิมพ์ตอบคำถามซ้ำเดิม</div>
+</div>
+<div class="stat-card">
+<div class="label">Drop-off Rate</div>
+<div class="value" style="color:var(--red)">30–50%</div>
+<div class="sub">เมื่อตอบช้าเกิน 15–30 นาที</div>
+</div>
+<div class="stat-card">
+<div class="label">ทีมงาน</div>
+<div class="value">1–2 คน</div>
+<div class="sub">One-man show ผลิต+แพ็ก+ตอบแชท</div>
+</div>
+<div class="stat-card">
+<div class="label">Conv. Commerce ไทย</div>
+<div class="value">30–40%</div>
+<div class="sub">ของ E-commerce รวม</div>
+</div>
+</div>
+
+<h3>พฤติกรรม "ทักแชทก่อนโอน"</h3>
+<p>ลูกค้าไทยนิยมสอบถาม ยืนยันความพร้อมส่ง และขอเลขบัญชี ผ่านแชท มากกว่าการกดสั่งผ่านตะกร้าอัตโนมัติ — ทำให้ความเร็วในการตอบเป็นปัจจัยชี้วัดการปิดการขาย</p>
+<div class="src">Sources: [source: user input] · Drop-off rate [source: assumption — ประสบการณ์ผู้ใช้]</div>
+</div>
+
+<!-- SLIDE 3: SOLUTION SUMMARY -->
+<div class="slide">
+<h2><span class="slide-num">3</span>Solution Summary</h2>
+<blockquote>อัปโหลดแคตตาล็อกสินค้าหรือ FAQ สั้น ๆ ของร้านไว้ในระบบ เมื่อลูกค้าทักแชตเข้ามา AI ร่างข้อความตอบกลับที่ตรงกับข้อมูลสินค้าและสุภาพ พร้อมคำนวณยอดเงินรวมและค่าส่งให้เสร็จสรรพ แอดมินร้านเพียงแค่กดตรวจสอบและกดยืนยันส่งข้อความ (Human-in-the-loop)<br><span style="font-size:11px;font-style:normal;color:var(--text3)">[source: participant — verbatim]</span></blockquote>
+
+<h3>การแบ่งประเภทสนทนา</h3>
+<div class="col2">
+<div style="background:var(--green-light);padding:16px;border-radius:8px">
+<div style="font-size:32px;font-weight:700;color:var(--green)">70%</div>
+<div style="font-weight:600;color:var(--green);margin-bottom:4px">Transactional / FAQ</div>
+<p style="font-size:13px;color:#374151">ราคา · สต็อก · ค่าส่ง · บัญชีโอน · สลิป<br>→ AI ร่าง Draft Reply + คำนวณยอด<br>→ แอดมินกด Approve</p>
+</div>
+<div style="background:var(--amber-light);padding:16px;border-radius:8px">
+<div style="font-size:32px;font-weight:700;color:var(--amber)">30%</div>
+<div style="font-weight:600;color:var(--amber);margin-bottom:4px">Consultative / Custom</div>
+<p style="font-size:13px;color:#374151">ต่อรอง · สั่งผลิตพิเศษ · แพ้อาหาร<br>→ AI คัดกรอง + Tag: Human Attention<br>→ แอดมินตอบเอง</p>
+</div>
+</div>
+
+<h3>4 จุดแตกต่างหลัก</h3>
+<table>
+<tr><td style="font-size:20px;width:36px">🚀</td><td><strong>Zero-Setup</strong></td><td>วาง Google Sheets URL → ใช้ได้ทันที ไม่ต้องสร้าง Flowchart</td></tr>
+<tr><td style="font-size:20px">🤝</td><td><strong>Copilot Mode</strong></td><td>AI ร่าง Draft → คนกดส่ง → ลด Hallucination</td></tr>
+<tr><td style="font-size:20px">🇹🇭</td><td><strong>Local Context</strong></td><td>ภาษาเป็นกันเอง · คำนวณค่าส่งตามเงื่อนไขชุมชน</td></tr>
+<tr><td style="font-size:20px">💸</td><td><strong>Accessible Pricing</strong></td><td>≤ หลักร้อยบาท/เดือน · Free Tier สำหรับเริ่มต้น</td></tr>
+</table>
+<div class="src">Sources: [source: user input]</div>
+</div>
+
+<!-- SLIDE 4: CONFIRMED PARAMETERS -->
+<div class="slide">
+<h2><span class="slide-num">4</span>Confirmed Parameters</h2>
+<table>
+<thead><tr><th>Parameter</th><th>Decision</th><th>Rationale</th></tr></thead>
+<tbody>
+<tr><td><strong>Channel</strong></td><td>LINE OA 100% (MVP)</td><td>ช่องทางปิดการขายหลัก · เลี่ยง Meta App Review</td></tr>
+<tr><td><strong>LLM</strong></td><td>Gemini 1.5 Flash</td><td>Context Window ใหญ่ · Free Tier · ต้นทุนต่ำ</td></tr>
+<tr><td><strong>RAG Strategy</strong></td><td>Prompt Stuffing 100%</td><td>สินค้า 10–50 รายการ ใส่ System Prompt ตรงๆ</td></tr>
+<tr><td><strong>Data Store</strong></td><td>Google Sheets (6 คอลัมน์)</td><td>เจ้าของร้านแก้ไขง่าย</td></tr>
+<tr><td><strong>Math Logic</strong></td><td>Deterministic (โค้ดคำนวณ)</td><td>ป้องกัน Hallucination ตัวเลข</td></tr>
+<tr><td><strong>Hosting</strong></td><td>Render / Railway</td><td>Auto-deploy · Free Tier · HTTPS ทันที</td></tr>
+<tr><td><strong>Backend</strong></td><td>Python/FastAPI หรือ Node.js</td><td>คลีน · เร็ว · ทีมถนัด</td></tr>
+<tr><td><strong>Pilot</strong></td><td>Synthetic Persona (ร้านจำลอง)</td><td>ไม่มีร้านจริงช่วง Hackathon</td></tr>
+<tr><td><strong>Budget (Hackathon)</strong></td><td>$0</td><td>ทุก Component ใช้ Free Tier</td></tr>
+<tr><td><strong>Budget (Production)</strong></td><td>≤ หลักร้อยบาท/เดือน</td><td>สอดคล้องกับกำไรร้านชุมชน</td></tr>
+</tbody>
+</table>
+<div class="src">Sources: [source: user input — approved in Stage 4, 7]</div>
+</div>
+
+<!-- SLIDE 5: COMPETITIVE LANDSCAPE -->
+<div class="slide">
+<h2><span class="slide-num">5</span>Competitive Landscape</h2>
+<table>
+<thead><tr><th>เครื่องมือ</th><th>จุดแข็ง</th><th>จุดอ่อนสำหรับร้านชุมชน</th></tr></thead>
+<tbody>
+<tr><td><strong>Manychat</strong></td><td>Broadcast · Flow builder</td><td>ตั้งค่าซับซ้อน · เน้น Facebook/IG</td></tr>
+<tr><td><strong>BotNoi</strong></td><td>Rule-based ภาษาไทย</td><td>ต้องสร้าง Flowchart · ไม่ยืดหยุ่น</td></tr>
+<tr><td><strong>AIYA</strong></td><td>ตอบอัตโนมัติบน LINE</td><td>ขาด Human-in-the-loop ที่ดี</td></tr>
+<tr><td><strong>Zwiz.ai</strong></td><td>จัดการคำสั่งซื้อ/ตัดสต็อก</td><td>ค่าบริการหลักพัน/เดือน</td></tr>
+<tr><td><strong>Kaojao</strong></td><td>ระบบจัดการออเดอร์</td><td>Rule-based · ภาษาพูดไม่เข้าใจ</td></tr>
+<tr><td><strong>Zaapi</strong></td><td>Broadcast + สั่งซื้อ</td><td>Learning curve สูง · ราคาสูง</td></tr>
+</tbody>
+</table>
+
+<h3>Pain Points ร่วม → โอกาสของเรา</h3>
+<div class="stat-grid">
+<div class="stat-card"><div class="value" style="font-size:20px">🧩</div><div class="sub">ตั้งค่ายากเกินทักษะชาวบ้าน</div></div>
+<div class="stat-card"><div class="value" style="font-size:20px">🤖</div><div class="sub">Rule-based ไม่ยืดหยุ่นกับภาษาพูด</div></div>
+<div class="stat-card"><div class="value" style="font-size:20px">⚖️</div><div class="sub">ไม่มี Human-in-the-Loop ที่ดี</div></div>
+<div class="stat-card"><div class="value" style="font-size:20px">💰</div><div class="sub">ค่าบริการหลักพัน/เดือน</div></div>
+</div>
+
+<h3>Market Size</h3>
+<div class="stat-grid">
+<div class="stat-card"><div class="label">OTOP ลงทะเบียน</div><div class="value" style="font-size:22px">~90K–100K</div><div class="sub">ราย (กรมการพัฒนาชุมชน)</div></div>
+<div class="stat-card"><div class="label">วิสาหกิจชุมชน</div><div class="value" style="font-size:22px">>80K</div><div class="sub">แห่ง</div></div>
+<div class="stat-card"><div class="label">ขายออนไลน์แล้ว</div><div class="value" style="font-size:22px">15K–25K</div><div class="sub">กิจการ (15–20%)</div></div>
+</div>
+<div class="src">Sources: [source: user input] · ตัวเลข OTOP อ้างอิงโดยผู้เข้าแข่ง</div>
+</div>
+
+<!-- SLIDE 6: FEASIBILITY ASSESSMENT -->
+<div class="slide">
+<h2><span class="slide-num">6</span>Feasibility Assessment</h2>
+<table>
+<thead><tr><th>Dimension</th><th>Rating</th><th>Evidence</th></tr></thead>
+<tbody>
+<tr><td><strong>Technical</strong></td><td><span class="badge-green">🟢 Go</span></td><td>LINE API ใน 5 นาที · Gemini Free Tier · ngrok ทดสอบทันที</td></tr>
+<tr><td><strong>Resource & Capability</strong></td><td><span class="badge-green">🟢 Go</span></td><td>ทีม 4 คนสกิลครบ ตรงกับ Tech Stack</td></tr>
+<tr><td><strong>Timeline</strong></td><td><span class="badge-green">🟢 Go (Conditional)</span></td><td>Prompt Stuffing ตัด Embedding Pipeline · Auto-deploy</td></tr>
+<tr><td><strong>Budget/Cost</strong></td><td><span class="badge-green">🟢 Go</span></td><td>Hackathon = $0 · Production ≤ หลักร้อยบาท/เดือน</td></tr>
+<tr><td><strong>Regulatory (PDPA)</strong></td><td><span class="badge-green">🟢 Go (with safeguards)</span></td><td>Data Minimization + Zero Training + Auto-Purge + Notice</td></tr>
+</tbody>
+</table>
+<div class="verdict-box" style="margin-top:16px;padding:20px">
+<div class="icon">✅</div>
+<div class="text">Overall: GO</div>
+<p style="font-size:14px;color:#065f46;margin-top:4px">มีความเป็นไปได้สูงในการพัฒนาและเดโมภายใน Hackathon</p>
+</div>
+<div class="src">Sources: [source: user input — Stage 3]</div>
+</div>
+
+<!-- SLIDE 7: SCREENS & FLOWS (System Flow) -->
+<div class="slide">
+<h2><span class="slide-num">7</span>Screens & Flows — System Flow</h2>
+<h3>Happy Path (70% — Transactional)</h3>
+<div class="flow-container">
+<div class="flow-box flow-blue">👤 ลูกค้าทักแชท LINE OA</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box flow-gray">⚡ Webhook → FastAPI Backend</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box flow-gray">📦 ดึงแคตตาล็อกจาก Google Sheets</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box flow-amber">🤖 Gemini 1.5 Flash สร้าง Draft Reply</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box flow-amber">🧮 Deterministic Logic คำนวณยอดรวม+ค่าส่ง</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box flow-blue">🖥️ ส่ง Draft → Admin Dashboard + แจ้งเตือน</div>
+<div class="flow-arrow">↓</div>
+<div style="display:flex;gap:12px;justify-content:center">
+<div class="flow-box flow-green" style="min-width:100px;padding:8px 12px">✅ Approve</div>
+<div class="flow-box flow-amber" style="min-width:100px;padding:8px 12px">✏️ Edit</div>
+<div class="flow-box flow-red" style="min-width:100px;padding:8px 12px">❌ Reject</div>
+</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box flow-green">📤 ส่งข้อความถึงลูกค้า</div>
+</div>
+
+<h3>Exception Path (30% — Consultative)</h3>
+<div class="flow-container">
+<div class="flow-box flow-blue">👤 ลูกค้าถามคำถามซับซ้อน / ต่อรอง</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box flow-red">🔴 Tag: HUMAN ATTENTION</div>
+<div class="flow-arrow">↓</div>
+<div style="display:flex;gap:16px;justify-content:center">
+<div class="flow-box flow-gray" style="min-width:180px;padding:8px 12px;font-size:12px">🤖 Auto-reply:<br>"ขอประสานเจ้าหน้าที่ฯ"</div>
+<div class="flow-box flow-amber" style="min-width:180px;padding:8px 12px;font-size:12px">🚨 แจ้งเตือนด่วน<br>ไปยังแอดมิน + สรุปบริบท</div>
+</div>
+<div class="flow-arrow">↓</div>
+<div class="flow-box flow-green">💬 แอดมินตอบเอง</div>
+</div>
+<div class="src">Sources: [source: synthesized from user input — Stages 1-5]</div>
+</div>
+
+<!-- SLIDE 8: SCREENS & FLOWS (LINE Chat Wireframe) -->
+<div class="slide">
+<h2><span class="slide-num">8</span>Screens & Flows — LINE OA Chat</h2>
+<div class="col2">
+<div>
+<h3>Happy Path — ปิดการขาย</h3>
+<div class="phone-frame">
+<div class="phone-notch"></div>
+<div class="phone-screen">
+<div style="text-align:center;font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px">💬 ร้านน้ำพริกแม่บุญเรือน</div>
+<div class="chat-bubble-left">น้ำพริกกุ้งเสียบ 3 กระปุก กับน้ำพริกตาแดง 2 กระปุก ส่ง กทม. รวมเท่าไหร่คะ</div>
+<div class="chat-bubble-right" style="font-size:11px">สวัสดีค่ะ 🙏 สินค้าทั้ง 2 มีพร้อมส่งค่ะ 😊<br><br>🧾 สรุปออเดอร์:<br>น้ำพริกกุ้งเสียบ 3×89 = 267฿<br>น้ำพริกตาแดง 2×79 = 158฿<br>ค่าส่ง กทม. = 50฿<br>━━━━━━━<br>💰 รวม: 475 บาท<br><br>🏦 กสิกรไทย xxx-x-xx890-x<br>โอนแล้วส่งสลิปมาได้เลยค่ะ 📸</div>
+<div class="chat-bubble-left">โอนแล้วค่ะ 📷 [สลิป]</div>
+<div class="chat-bubble-right">ได้รับสลิปเรียบร้อยค่ะ 🙏<br>จะจัดส่งให้พรุ่งนี้นะคะ 📦<br>ขอบคุณที่อุดหนุนค่ะ 💛</div>
+</div>
+</div>
+</div>
+<div>
+<h3>Exception — Escalate</h3>
+<div class="phone-frame">
+<div class="phone-notch"></div>
+<div class="phone-screen">
+<div style="text-align:center;font-size:12px;font-weight:600;color:var(--text);margin-bottom:8px">💬 ร้านน้ำพริกแม่บุญเรือน</div>
+<div class="chat-bubble-left">สั่ง 200 กระปุก งานเกษียณ ขอราคาส่งได้ไหม แล้วสั่งทำฉลากพิเศษได้มั้ยคะ</div>
+<div class="chat-bubble-right">ขอบคุณที่สนใจค่ะ 🙏<br>สำหรับออเดอร์พิเศษจำนวนมาก ขอประสานเจ้าของร้านให้ตอบโดยตรงนะคะ รอสักครู่ค่ะ 😊</div>
+<div style="text-align:center;margin:8px 0">
+<span style="background:var(--red-light);color:var(--red);padding:4px 10px;border-radius:4px;font-size:10px;font-weight:600">🔴 HUMAN ATTENTION</span>
+</div>
+<div class="chat-bubble-right" style="background:#1f2937">สวัสดีค่ะ พี่บุญเรือนเองค่ะ 200 กระปุก ลดให้ กระปุกละ 79 บาทนะคะ ฉลากพิเศษทำได้ค่ะ ใช้เวลา 5 วัน...</div>
+</div>
+</div>
+<h3 style="margin-top:16px">7 Screens ทั้งหมด</h3>
+<ul style="font-size:12px">
+<li>Rich Menu (5 ช่อง)</li>
+<li>Chat — Happy Path</li>
+<li>Chat — สินค้าหมด + แนะนำ</li>
+<li>Chat — Fallback (ไม่มีข้อมูล)</li>
+<li>Admin Dashboard</li>
+<li>Admin Settings</li>
+<li>Admin Analytics (Nice-to-Have)</li>
+</ul>
+</div>
+</div>
+<div class="src">Sources: [source: synthesized from user input — Stage 6]</div>
+</div>
+
+<!-- SLIDE 9: SCREENS & FLOWS (Admin Dashboard Wireframe) -->
+<div class="slide">
+<h2><span class="slide-num">9</span>Screens & Flows — Admin Dashboard</h2>
+<div class="dash-frame">
+<div class="dash-header"><span>🏪 Local Commerce Quick-Reply — Admin Dashboard</span><span style="font-size:11px">👤 แอดมิน: สมศรี</span></div>
+<div class="dash-body">
+<div class="stat-grid" style="margin-top:0">
+<div class="stat-card" style="padding:8px"><div style="font-size:10px;color:var(--text3)">💬 แชททั้งหมด</div><div style="font-size:20px;font-weight:700;color:var(--accent)">24</div></div>
+<div class="stat-card" style="padding:8px"><div style="font-size:10px;color:var(--text3)">✅ ตอบแล้ว</div><div style="font-size:20px;font-weight:700;color:var(--green)">19</div></div>
+<div class="stat-card" style="padding:8px"><div style="font-size:10px;color:var(--text3)">⏳ รอตอบ</div><div style="font-size:20px;font-weight:700;color:var(--amber)">3</div></div>
+<div class="stat-card" style="padding:8px"><div style="font-size:10px;color:var(--text3)">🔴 ด่วน</div><div style="font-size:20px;font-weight:700;color:var(--red)">2</div></div>
+</div>
+<div class="dash-card">
+<div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong style="font-size:12px">💬 #24 คุณวิภา</strong><span style="font-size:10px;color:var(--text3)">⏱️ 12 วิ.</span></div>
+<div style="font-size:11px;color:var(--text2);margin-bottom:6px">📩 "น้ำพริกกุ้งเสียบ 3 กระปุก กับน้ำพริกตาแดง 2 กระปุก ส่ง กทม."</div>
+<div style="background:#f0fdf4;padding:8px;border-radius:6px;font-size:11px;margin-bottom:6px">🤖 <strong>AI Draft:</strong> สวัสดีค่ะ 🙏 สินค้ามีพร้อมส่งค่ะ... 💰 รวม: 475 บาท<br><span style="font-size:10px;color:var(--text3)">📎 Sheets Row #5, #3 · 🧮 Deterministic (267+158+50) · 🎯 HIGH</span></div>
+<div><span class="btn btn-green">✅ Approve</span><span class="btn btn-blue">✏️ Edit</span><span class="btn btn-red">❌ Reject</span></div>
+</div>
+<div class="dash-card" style="border-left:3px solid var(--red)">
+<div style="display:flex;justify-content:space-between;margin-bottom:6px"><strong style="font-size:12px">🔴 #23 คุณประสิทธิ์</strong><span class="badge-red" style="font-size:10px">HUMAN ATTENTION</span></div>
+<div style="font-size:11px;color:var(--text2);margin-bottom:6px">📩 "สั่ง 200 กระปุก งานเกษียณ ขอราคาส่ง ฉลากพิเศษ"</div>
+<div style="background:#fef2f2;padding:8px;border-radius:6px;font-size:11px;margin-bottom:6px">⚠️ ออเดอร์จำนวนมาก + ต่อรองราคา + สั่งผลิตพิเศษ → แนะนำตอบเอง</div>
+<div><span class="btn btn-gray">💬 ตอบเอง</span><span class="btn btn-gray">📋 ดูประวัติ</span></div>
+</div>
+</div>
+</div>
+<div class="src">Sources: [source: synthesized from user input — Stage 6]</div>
+</div>
+
+<!-- SLIDE 10: ARCHITECTURE -->
+<div class="slide">
+<h2><span class="slide-num">10</span>Architecture / How It Works</h2>
+<div class="flow-container">
+<div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;align-items:center">
+<div class="flow-box flow-green" style="min-width:120px">📱 LINE OA<br><span style="font-size:11px">(ลูกค้า)</span></div>
+<div class="flow-arrow" style="transform:rotate(-90deg)">↓</div>
+<div class="flow-box flow-blue" style="min-width:200px">⚙️ FastAPI Backend<br><span style="font-size:11px">(Render/Railway)</span></div>
+<div class="flow-arrow" style="transform:rotate(-90deg)">↓</div>
+<div class="flow-box flow-amber" style="min-width:160px">🤖 Gemini 1.5 Flash<br><span style="font-size:11px">(Google AI Studio)</span></div>
+</div>
+<div style="display:flex;gap:40px;justify-content:center;margin-top:16px">
+<div class="flow-box flow-gray" style="min-width:140px">📊 Google Sheets<br><span style="font-size:11px">(6 คอลัมน์)</span></div>
+<div class="flow-box flow-gray" style="min-width:140px">🖥️ Admin Web App<br><span style="font-size:11px">(Approve/Edit/Reject)</span></div>
+</div>
+</div>
+
+<h3>Google Sheets Schema</h3>
+<table>
+<thead><tr><th>Column</th><th>Example</th></tr></thead>
+<tbody>
+<tr><td>Item_Name</td><td>น้ำพริกกุ้งเสียบ</td></tr>
+<tr><td>Price</td><td>89</td></tr>
+<tr><td>Stock_Status</td><td>พร้อมส่ง / หมด</td></tr>
+<tr><td>Description</td><td>เผ็ดกลาง, ขนาด 200g</td></tr>
+<tr><td>Shipping_Rate</td><td>กทม.50฿, ตจว.70฿</td></tr>
+<tr><td>FAQ</td><td>เก็บได้ 6 เดือน, มี อย.</td></tr>
+</tbody>
+</table>
+
+<h3>Key Technical Decisions</h3>
+<ul>
+<li><strong>Prompt Stuffing 100%</strong> (ไม่ใช้ Vector DB) — สินค้า 10–50 รายการ ตัด Embedding Pipeline</li>
+<li><strong>Deterministic Logic สำหรับตัวเลข</strong> — ราคา/ค่าส่ง/ยอดรวม ดึงจากตารางแล้วคำนวณด้วยโค้ด</li>
+<li><strong>ngrok สำหรับ Local Dev</strong> — ทดสอบ Webhook ได้ทันทีไม่ต้อง deploy</li>
+</ul>
+<div class="src">Sources: [source: user input — Stage 3]</div>
+</div>
+
+<!-- SLIDE 11: SCOPE -->
+<div class="slide">
+<h2><span class="slide-num">11</span>Scope</h2>
+<h3>🟢 P0 — Must-Have (MVP)</h3>
+<table>
+<thead><tr><th>ID</th><th>Feature</th><th>Description</th></tr></thead>
+<tbody>
+<tr><td><span class="tag tag-must">F1</span></td><td><strong>Catalog Ingestion</strong></td><td>Google Sheets → inject System Prompt</td></tr>
+<tr><td><span class="tag tag-must">F2</span></td><td><strong>AI Draft Reply</strong></td><td>ร่างข้อความภาษาไทย สุภาพ เป็นกันเอง</td></tr>
+<tr><td><span class="tag tag-must">F3</span></td><td><strong>Order Summary & Calc</strong></td><td>คำนวณยอดรวม+ค่าส่ง (Deterministic)</td></tr>
+<tr><td><span class="tag tag-must">F4</span></td><td><strong>Admin Approve UI</strong></td><td>Approve / Edit / Reject</td></tr>
+<tr><td><span class="tag tag-must">F5</span></td><td><strong>Human Attention Tag</strong></td><td>แจ้งเตือนแอดมินสำหรับคำถามซับซ้อน</td></tr>
+<tr><td><span class="tag tag-must">F6</span></td><td><strong>Guardrails & Fallback</strong></td><td>Prompt Constraints + Fallback message</td></tr>
+<tr><td><span class="tag tag-must">F7</span></td><td><strong>Mock Pilot Demo</strong></td><td>ร้านจำลอง + สินค้า 10–15 รายการ + วิดีโอ</td></tr>
+</tbody>
+</table>
+<div class="col2" style="margin-top:16px">
+<div>
+<h3>🟡 Nice-to-Have</h3>
+<table>
+<tr><td><span class="tag tag-nice">N1</span></td><td>Slip Verification (OCR)</td></tr>
+<tr><td><span class="tag tag-nice">N2</span></td><td>Multi-language</td></tr>
+<tr><td><span class="tag tag-nice">N3</span></td><td>Analytics Dashboard</td></tr>
+</table>
+</div>
+<div>
+<h3>🔴 Out of Scope</h3>
+<table>
+<tr><td><span class="tag tag-out">O1</span></td><td>FB Messenger / IG DM</td></tr>
+<tr><td><span class="tag tag-out">O2</span></td><td>Payment Gateway</td></tr>
+<tr><td><span class="tag tag-out">O
